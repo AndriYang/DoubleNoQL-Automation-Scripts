@@ -9,6 +9,7 @@ Setting up:
 4. Intall Fabric (pip install fabric)
 
 We have multiple scripts to automate multiple tasks:
+
 ![list for scripts and folders](/image_reference/01.png)
 
 ## setup_bookstore.py
@@ -43,6 +44,7 @@ The script will also print the public IP address of each of the instances for re
 ## launch_bookstore
 
 This script will be used to launch the website. The website can be accessed through the IP address provided after running this script.
+
 ![launch website](/image_reference/06.png)
 
 It can be stopped by terminating the script itself Or press ctrl + c if you are running the script through terminal
