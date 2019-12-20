@@ -144,7 +144,7 @@ while(not next_step):
         node_ip = instance_dic[instance_node_list[0]]
         next_step = True
     except:
-        print('Waiting for for Pulbic IP address to be assigned!')
+        print('Waiting for for Public IP address to be assigned!')
         sleep(5)
 
 # Define SSH connect to node app instance
