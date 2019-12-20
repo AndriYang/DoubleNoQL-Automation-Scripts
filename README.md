@@ -49,6 +49,22 @@ This script will be used to launch the website. The website can be accessed thro
 
 It can be stopped by terminating the script itself Or press ctrl + c if you are running the script through terminal
 
+## setup_hadoop_nodes
+
+This script will be used to create hadoop namenode and datanode.
+
+1. The user will be prompt to enter the security credentials, similar to previous setup for setup_bookstore.py. 
+2. The user will be prompt to enter the key pair. User should enter the previous key pair used.
+3. The user will be prompt to enter a name for the security group. Make sure this security group doesn't already exit.
+4. The user will be prompt to enter the image id. We suggest to use 'ami-061eb2b23f9f8839c' as all our testing were done using this.
+5. The user will be prompt to enter the number of datanode(s) required. 
+6. The user will be prompt to enter the instance type. We did all our testing using 't2.micro' and 't2.medium'.
+
+![launch website](/image_reference/07.png)
+
+The system will now start the setup process for the namenode and datanode(s). During our testing, it took about 30-40 minutes to setup 1 namenode and 8 datanodes.
+
+
 ## delete_bookstore
 
 This script can be used to deleted all the previously created instances, security groups and keys. Once every object is deleted from AWS, the script will also delete all the previously created files. 
