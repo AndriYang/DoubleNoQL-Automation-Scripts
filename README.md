@@ -41,6 +41,8 @@ The script will also print the public IP address of each of the instances for re
 
 ![instance setup_finish](/image_reference/05.png)
 
+During our testing, this process took about less than 5 minutes to complete.
+
 ## launch_bookstore
 
 This script will be used to launch the website. The website can be accessed through the IP address provided after running this script.
@@ -48,6 +50,7 @@ This script will be used to launch the website. The website can be accessed thro
 ![launch website](/image_reference/06.png)
 
 It can be stopped by terminating the script itself Or press ctrl + c if you are running the script through terminal
+
 
 ## setup_hadoop_nodes
 
