@@ -77,5 +77,5 @@ p1 = rdd.map(lambda x: (x[1] - p_avg)**2).sum()
 l1 = rdd.map(lambda x: (x[1] - p_avg)**2).sum()
 denominator = math.sqrt(p1)*math.sqrt(l1)
 crr = numerator/denominator
-print("The Calculated Pearson Correlation:",crr)
+print("Pearson correlation coefficient: ",crr)
 
