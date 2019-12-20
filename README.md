@@ -41,6 +41,8 @@ The script will also print the public IP address of each of the instances for re
 
 ![instance setup_finish](/image_reference/05.png)
 
+During our testing, this process took about less than 5 minutes to complete.
+
 ## launch_bookstore
 
 This script will be used to launch the website. The website can be accessed through the IP address provided after running this script.
@@ -48,6 +50,23 @@ This script will be used to launch the website. The website can be accessed thro
 ![launch website](/image_reference/06.png)
 
 It can be stopped by terminating the script itself Or press ctrl + c if you are running the script through terminal
+
+
+## setup_hadoop_nodes
+
+This script will be used to create hadoop namenode and datanode.
+
+1. The user will be prompt to enter the security credentials, similar to previous setup for setup_bookstore.py. 
+2. The user will be prompt to enter the key pair. User should enter the previous key pair used.
+3. The user will be prompt to enter a name for the security group. Make sure this security group doesn't already exit.
+4. The user will be prompt to enter the image id. We suggest to use 'ami-061eb2b23f9f8839c' as all our testing were done using this.
+5. The user will be prompt to enter the number of datanode(s) required. 
+6. The user will be prompt to enter the instance type. We did all our testing using 't2.micro' and 't2.medium'.
+
+![launch website](/image_reference/07.png)
+
+The system will now start the setup process for the namenode and datanode(s). During our testing, it took about 30-40 minutes to setup 1 namenode and 8 datanodes.
+
 
 ## delete_bookstore
 
