@@ -67,6 +67,17 @@ This script will be used to create hadoop namenode and datanode.
 
 The system will now start the setup process for the namenode and datanode(s). During our testing, it took about 30-40 minutes to setup 1 namenode and 8 datanodes.
 
+## etl_analytics
+
+After finished setting up hadoop node(s)
+
+This script will be used to create hadoop namenode and datanode.
+
+1. The user will be prompt to enter the security credentials, similar to previous setup for setup_bookstore.py. 
+2. The system will export 'sqloutput.csv' from MySQL sever and 'mongooutput.csv' from MongoDB sever to prepare for data analytics. These two files are downloaded to the current directory.
+3. Put these two csv files into hadoop namenode instance filesystem.
+4. The script will automatically run the TF-IDF.py script. The result will be downloaded into the same directory as the this script.
+5. To continue to run Pearson Correlation Coefficient script, press enter and the output will be printed on the terminal itself.
 
 ## delete_bookstore
 
