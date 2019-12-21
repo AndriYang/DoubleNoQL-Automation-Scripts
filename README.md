@@ -102,6 +102,8 @@ Some additional functionalities include:
 3. Multiple sort options for list of books
 4. Search
 
+Code for your website can be found at the following github repository: https://github.com/gcgloven/DoubleNoQL
+
 ## Website Navigation
 
 All pages have access to Logs, Chatbot and all the other pages on our website.
