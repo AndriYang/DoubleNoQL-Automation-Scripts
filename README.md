@@ -30,7 +30,7 @@ This script is to initialize EC2 instances for Node.js app for website's fronten
 The following steps will be repeated three times for each of the instance. At the end of each instance's setup, the user must press enter to continue the setup process
 1. Enter a name for the security group. Make sure this security group doesn't already exit.
 2. Enter the image id. We suggest to use 'ami-061eb2b23f9f8839c' as all our testing were done using this.
-3. Enter the instance type. We did all our testing using 't2.micro' and 't2.medium'.
+3. Enter the instance type t2.medium  (We did all our testing using 't2.micro' and 't2.medium' and find t2.micro ineffective in running the computations.)
 Incase incorrect image id or instance type is enter, the script will prompt user the enter again.
 
 ![instance setup](/image_reference/04.png)
@@ -61,7 +61,7 @@ This script will be used to create hadoop namenode and datanode.
 3. The user will be prompt to enter a name for the security group. Make sure this security group doesn't already exit.
 4. The user will be prompt to enter the image id. We suggest to use 'ami-061eb2b23f9f8839c' as all our testing were done using this.
 5. The user will be prompt to enter the number of datanode(s) required. 
-6. The user will be prompt to enter the instance type. We did all our testing using 't2.micro' and 't2.medium'.
+6. Enter the instance type t2.medium  (We did all our testing using 't2.micro' and 't2.medium' and find t2.micro ineffective in running the computations.)
 
 ![setup hadoop](/image_reference/07.png)
 
@@ -76,8 +76,10 @@ This script will be used to create hadoop namenode and datanode.
 1. The user will be prompt to enter the security credentials, similar to previous setup for setup_bookstore.py. 
 2. The system will export 'sqloutput.csv' from MySQL sever and 'mongooutput.csv' from MongoDB sever to prepare for data analytics. These two files are downloaded to the current directory.
 3. Put these two csv files into hadoop namenode instance filesystem.
-4. The script will automatically run the TF-IDF.py script. The result will be downloaded into the same directory as the this script.
-5. To continue to run Pearson Correlation Coefficient script, press enter and the output will be printed on the terminal itself.
+4. The script will automatically run the TF-IDF.py script. The result will be downloaded into the same directory as the this script as "part-00000".
+![key-pair](/image_reference/08.png)
+5. To continue to run Pearson Correlation Coefficient script, press enter and the output will be printed on the terminal itself. Please refer to the output in the kernel.
+![key-pair](/image_reference/09.png)
 
 ## delete_bookstore
 
@@ -125,7 +127,7 @@ This page lists 9 books per page. This page also has a price slider to select a 
 On this page, user can see the overall ratings of the book, reviews left by other users, related books and they can also leave reviews.
 
 ![book reviews](/image_reference/d.PNG)
-
+<br>
 ![related books](/image_reference/h.PNG)
 
 ### Add book page
