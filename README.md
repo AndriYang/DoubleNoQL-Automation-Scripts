@@ -106,7 +106,7 @@ All pages have access to Logs, Chatbot and all the other pages on our website.
 
 ![logs access](/image_reference/e.png)
 
-![chatbot](/image_reference/g.png)
+![logs access](/image_reference/g.png)
 
 ### Homepage
 
