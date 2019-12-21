@@ -106,37 +106,36 @@ All pages have access to Logs, Chatbot and all the other pages on our website.
 
 ![logs access](/image_reference/e.png)
 
-![logs access](/image_reference/g.png)
+![logs access](/image_reference/g.PNG)
 
 ### Homepage
 
 Homepage is our main landing page. On this page the user can seacrh for a book by it's Asin ID or Book Title.
 
-![homepage](/image_reference/a.png)
+![homepage](/image_reference/a.PNG)
 
 ### Books list page
 
 This page lists 9 books per page. This page also has a price slider to select a price range and also some options. When a user clicks on a page, they'll be redirected to the individual page of that perticular book.
 
-![book list](/image_reference/b.png)
+![book list](/image_reference/b.PNG)
 
 ### Book reviews page
 
 On this page, user can see the overall ratings of the book, reviews left by other users, related books and they can also leave reviews.
 
-![book reviews](/image_reference/d.png)
+![book reviews](/image_reference/d.PNG)
 
-![related books](/image_reference/h.png)
+![related books](/image_reference/h.PNG)
 
 ### Add book page
 
 Through this page, any user can add new books to the website.
 
-![add books](/image_reference/c.png)
+![add books](/image_reference/c.PNG)
 
 ### Logs page
 
 This page will list all the logs.
 
-
-![logs](/image_reference/f.png)
+![logs](/image_reference/f.PNG)
