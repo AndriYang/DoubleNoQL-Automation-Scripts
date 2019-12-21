@@ -82,3 +82,8 @@ This script will be used to create hadoop namenode and datanode.
 ## delete_bookstore
 
 This script can be used to deleted all the previously created instances, security groups and keys. Once every object is deleted from AWS, the script will also delete all the previously created files. 
+
+# DoubleNoQL Book Reviews Website
+
+
+
