@@ -141,6 +141,9 @@ if os.path.exists("hadoop_node_instances"):
 if os.path.exists("hadoop_node_groupID"):
   os.remove("hadoop_node_groupID")
 
+if os.path.exists("hadoop_ip"):
+  os.remove("hadoop_ip")
+
 if os.path.exists("key_pair"):
   os.remove("key_pair")
 
