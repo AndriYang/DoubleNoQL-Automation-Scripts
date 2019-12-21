@@ -127,8 +127,6 @@ This page lists 9 books per page. This page also has a price slider to select a 
 On this page, user can see the overall ratings of the book, reviews left by other users, related books and they can also leave reviews.
 
 ![book reviews](/image_reference/d.PNG)
-<br>
-![related books](/image_reference/h.PNG)
 
 ### Add book page
 
