@@ -146,25 +146,37 @@ This page will list all the logs.
 
 The chatbot for this project uses Google's Dialogflow, whereby there are different Intents that are essentially categories for the bot to answer queries to. The chatbot has the following Intents - Greetings, Overall structure of the project, Instructions on adding a book, Instructions on adding a book review, and further information that can be given randomly one at a time. The questions can be asked to the Chatbot in any order.
 
+
+#### Greetings
 ![Greetings](/image_reference/cb-1-res.PNG)
 These are the greetings for the Bot.
 
+
+#### About the bot
 ![About bot qns](/image_reference/cb-2-ques.PNG)
 ![About bot ans](/image_reference/cb-2-res.PNG)
 These are the questions fed into the bot regarding the nature of the website, along with the responses.
 
+
+#### Navigation
 ![Tab nav qns](/image_reference/cb-3-ques.PNG)
 ![Tab nav ans](/image_reference/cb-3-res.PNG)
 These are the questions and responses fed into the bot regarding navigation and what each tabs do.
 
+
+#### Add new book
 ![Add book qns](/image_reference/cb-4-ques.PNG)
 ![Add book ans](/image_reference/cb-4-res.PNG)
 These are the questions and responses fed into the bot regarding adding new books into the website.
 
+
+#### Add new review
 ![Add review qns](/image_reference/cb-5-ques.PNG)
 ![Add review ans](/image_reference/cb-5-res.PNG)
 These are the questions and responses fed into the bot regarding adding new reviews into a book.
 
+
+#### Others
 ![More features qns](/image_reference/cb-6-ques.PNG)
 ![More features ans](/image_reference/cb-6-res.PNG)
 These are the questions and responses fed into the bot on other features that the users might not know - such as Logs, the search function, Related products.
