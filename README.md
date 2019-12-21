@@ -63,7 +63,7 @@ This script will be used to create hadoop namenode and datanode.
 5. The user will be prompt to enter the number of datanode(s) required. 
 6. The user will be prompt to enter the instance type. We did all our testing using 't2.micro' and 't2.medium'.
 
-![launch website](/image_reference/07.png)
+![setup hadoop](/image_reference/07.png)
 
 The system will now start the setup process for the namenode and datanode(s). During our testing, it took about 30-40 minutes to setup 1 namenode and 8 datanodes.
 
@@ -85,5 +85,58 @@ This script can be used to deleted all the previously created instances, securit
 
 # DoubleNoQL Book Reviews Website
 
+We met all the basic requirement of this project and also added some extra feature as well to improve the funtionality of the website. 
+
+Some of the  basic functionalities include: 
+1. List all books
+2. Add new books 
+3. Individual book page with review list
+4. Leave reviews and rating for each book
+5. Logs display
+
+Some additional functionalities include:
+1. Chatbot to answer basic queries
+2. Slider to select a price range of books
+3. Multiple sort options for list of books
+4. Search
+
+## Website Navigation
+
+All pages have access to Logs, Chatbot and all the other pages on our website.
+
+![logs access](/image_reference/e.png)
+
+![chatbot](/image_reference/g.png)
+
+### Homepage
+
+Homepage is our main landing page. On this page the user can seacrh for a book by it's Asin ID or Book Title.
+
+![homepage](/image_reference/a.png)
+
+### Books list page
+
+This page lists 9 books per page. This page also has a price slider to select a price range and also some options. When a user clicks on a page, they'll be redirected to the individual page of that perticular book.
+
+![book list](/image_reference/b.png)
+
+### Book reviews page
+
+On this page, user can see the overall ratings of the book, reviews left by other users, related books and they can also leave reviews.
+
+![book reviews](/image_reference/d.png)
+
+![related books](/image_reference/h.png)
+
+### Add book page
+
+Through this page, any user can add new books to the website.
+
+![add books](/image_reference/c.png)
+
+### Logs page
+
+This page will list all the logs.
 
 
+![logs](/image_reference/f.png)
