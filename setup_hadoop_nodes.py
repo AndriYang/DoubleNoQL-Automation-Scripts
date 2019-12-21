@@ -25,11 +25,14 @@ while(not next_step):
     print(region_name)
 
     ec2 = boto3.client('ec2', 
-                    aws_access_key_id=aws_key_id,
-                    aws_secret_access_key=aws_secret_key,
-                    region_name=region_name)
+                   aws_access_key_id=aws_key_id,
+                   aws_secret_access_key=aws_secret_key,
+                   region_name=region_name)
     
-
+    # ec2 = boto3.client('ec2', 
+    #                 aws_access_key_id='AKIAJLZ5QRQTJ2PMKDAQ',
+    #                 aws_secret_access_key='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',
+    #                 region_name='ap-southeast-1')
 
     try:
         ec2_functions.list_ec2_instances(ec2)
@@ -51,166 +54,85 @@ while(not next_step):
 
         
         
+        
 # Setting up node app server
 
 # create new  IP permissions for node app server security group
-namenode_ip_permissions = [{'IpProtocol': 'tcp',
+node_ip_permissions = [{'IpProtocol': 'tcp',
                    'FromPort': 22,
                    'ToPort': 22,
                    'IpRanges': [{
                        'CidrIp': '0.0.0.0/0',
                        'Description': 'SSH'}]},
-                    {'IpProtocol': 'tcp',
-                   'FromPort': 50070,
-                   'ToPort': 50070,
-                   'IpRanges': [{
-                       'CidrIp': '0.0.0.0/0',
-                       'Description': 'HTTP'}]},
-                    {'IpProtocol': 'tcp',
-                   'FromPort': 9000,
-                   'ToPort': 9000,
-                   'IpRanges': [{
-                       'CidrIp': '0.0.0.0/0',
-                       'Description': 'HTTP'}]},
-                    {'IpProtocol': 'tcp',
-                   'FromPort': 8020,
-                   'ToPort': 8020,
+                  {'IpProtocol': 'tcp',
+                   'FromPort': 0,
+                   'ToPort': 65535,
                    'IpRanges': [{
                        'CidrIp': '0.0.0.0/0',
                        'Description': 'HTTP'}]}]
-    
 
-
-# Enter Security group name for node app server
-# Set up Security gropu for namenode
+    # Enter Security group name for node app server
 next_step = False
 while(not next_step):
-    node_group_name = input('Enter a security group name for the node app server namenode. Please ensure that this name is not take by any other security group: ')
+    node_group_name = input('Enter a security group name for the node app server. Please ensure that this name is not take by any other security group: ')
     try:
         ec2.describe_security_groups(GroupNames=[node_group_name])
         print('Security group with name %s alredy exist. Try again!' %node_group_name)
     except:
-        hadoop_namenode_groupID = ec2_functions.create_security_group(ec2, node_group_name , 'Security group for Node.js app', namenode_ip_permissions)
+        hadoop_node_groupID = ec2_functions.create_security_group(ec2, node_group_name, 'Security group for Node.js app', node_ip_permissions)
         next_step = True
         
         
-# create a new single namenode instance for node app
+# create a new single instance for node app
 next_step = False
-instance_node_list_combine = []
 while(not next_step):
     image_id = input("Enter image ID for node app server: ")
     slaveNode = int(input("Enter Number of datanode(s) for node app server: "))
     instance_type = input("Enter instance type for node app server: ")
-    no_instance = slaveNode
+    no_instance = slaveNode + 1
     slaveNode = str(slaveNode)
     try:
         # instance_node_list = ec2_functions.create_instances(ec2,'ami-061eb2b23f9f8839c', 1, 't2.micro', key_pair, node_groupID)
-        instance_node_list = ec2_functions.create_instances(ec2, image_id, 1, instance_type, key_pair, hadoop_namenode_groupID)
-        
-        instance_node_list_combine.append(instance_node_list[0])
-        print(instance_node_list)
-        print(instance_node_list_combine)
+        instance_node_list = ec2_functions.create_instances(ec2, image_id, no_instance, instance_type, key_pair, hadoop_node_groupID)
         next_step = True
     except:
         print('Something went wrong. Please make sure image ID and instance type is corret. Try again!')
         
 # wait for IP address to be assigned to the newly created instance
 next_step = False
-
-DataNodeIP ={}
-DataNodeDNS ={}
-DataNodePublicIP ={}
-        
 while(not next_step):
     try:
         sleep(10)
-        privateinstance_dic = ec2_functions.list_ec2_multiinstances(ec2)[0]
+        instance_dic = ec2_functions.list_ec2_multiinstances(ec2)[0]
         publicDNS_dic = ec2_functions.list_ec2_multiinstances(ec2)[1]
-        publicinstance_dic = ec2_functions.list_ec2_multiinstances(ec2)[2]
-        
-        
-        DataNodeIP["NameNodeIP"] = privateinstance_dic[instance_node_list[0]]
-        DataNodeDNS['NameNodeDNS'] = publicDNS_dic[instance_node_list[0]]
-        DataNodePublicIP["NameNodeIP"] = publicinstance_dic[instance_node_list[0]]
-        
+        publicPublicIP_dic = ec2_functions.list_ec2_multiinstances(ec2)[2]
+        print(publicPublicIP_dic)
+        DataNodeIP ={}
+        DataNodeDNS ={}
+        DataNodePublicIP={}
+        for i in range(len(instance_node_list)):
+            if i == 0:
+                DataNodeIP["NameNodeIP"] = instance_dic[instance_node_list[i]]
+                DataNodeDNS['NameNodeDNS'] = publicDNS_dic[instance_node_list[i]]
+                DataNodePublicIP["NameNodeIP"] = publicPublicIP_dic[instance_node_list[0]]
+            else: 
+                DataNodeIP["DataNode00"+str(i)+"IP"] = instance_dic[instance_node_list[i]]
+                DataNodeDNS["DataNode00"+str(i)+"DNS"] = publicDNS_dic[instance_node_list[i]]
+                DataNodePublicIP["DataNode00"+str(i)+"IP"] = publicPublicIP_dic[instance_node_list[i]]
         next_step = True
-        hadoop_namenode_id = DataNodeIP["NameNodeIP"]
-        
+        print('DataNodeIP: ', DataNodeIP)
+        print('DataNodeDNS: ', DataNodeDNS)
+        print('DataNodePublicIP: ', DataNodePublicIP)
+        print('Done')
 #        sleep(10*no_instance)
     except:
         print('Waiting for for Pulbic IP address to be assigned!')
         sleep(5)
         
-        
-print('NameNode is ready!')
-
-namenode_ip = DataNodePublicIP["NameNodeIP"]
-
-datanode_ip_permissions = [{'IpProtocol': 'tcp',
-                   'FromPort': 22,
-                   'ToPort': 22,
-                   'IpRanges': [{
-                       'CidrIp': '0.0.0.0/0',
-                       'Description': 'SSH'}]},
-                    {'IpProtocol': 'tcp',
-                   'FromPort': 50020,
-                   'ToPort': 50020,
-                   'IpRanges': [{
-                       'CidrIp': namenode_ip+'/32',
-                       'Description': 'HTTP'}]}]
-    
-
-# Set up Security group for datanodes
-next_step = False
-while(not next_step):
-    datanode_group_name = node_group_name + 'hq'
-    try:
-        ec2.describe_security_groups(GroupNames=[datanode_group_name])
-        print('Security group with name %s alredy exist. Try again!' %node_group_name)
-    except:
-        hadoop_datanode_groupID = ec2_functions.create_security_group(ec2, datanode_group_name , 'Security group for Node.js app', datanode_ip_permissions)
-        next_step = True
-
-# create a new datanodes instance for node app
-next_step = False
-while(not next_step):
-
-    try:
-        # instance_node_list = ec2_functions.create_instances(ec2,'ami-061eb2b23f9f8839c', 1, 't2.micro', key_pair, node_groupID)
-        instance_node_list = ec2_functions.create_instances(ec2, image_id, no_instance, instance_type, key_pair, hadoop_datanode_groupID)
-        instance_node_list_combine += instance_node_list
-        print(instance_node_list)
-        print(instance_node_list_combine)
-        next_step = True
-    except:
-        print('Something went wrong. Please make sure image ID and instance type is corret. Try again!')
-        
-# wait for IP address to be assigned to the newly created instance
-next_step = False
-
-
-while(not next_step):
-    try:
-        privateinstance_dic = ec2_functions.list_ec2_multiinstances(ec2)[0]
-        publicDNS_dic = ec2_functions.list_ec2_multiinstances(ec2)[1]
-        publicinstance_dic = ec2_functions.list_ec2_multiinstances(ec2)[2]
-        
-        for i in range(len(instance_node_list)):
-            DataNodeIP["DataNode00"+str(i+1)+"IP"] = privateinstance_dic[instance_node_list[i]]
-            DataNodeDNS["DataNode00"+str(i+1)+"DNS"] = publicDNS_dic[instance_node_list[i]]
-            DataNodePublicIP["DataNode00"+str(i+1)+"IP"] = publicinstance_dic[instance_node_list[i]]
-
-        next_step = True
-        print('DataNodeIP: ', DataNodeIP)
-        print('DataNodeDNS: ', DataNodeDNS)
-        print('Done')
-        
-    except:
-        print('Waiting for for Pulbic IP address to be assigned!')
-        sleep(5)
 
         
 # Ensure all instances are working
+      
 next_step = False
 while(not next_step):
     for i in range(no_instance):
@@ -253,9 +175,10 @@ while(not next_step):
                     sleep(5)
 
 
+
+print('Generating key')
 # Generating public/private rsa key pair for all instances.
-print('Start generating key')
-no_instance = no_instance + 1
+
 next_step = False
 while(not next_step):
 
@@ -271,13 +194,11 @@ while(not next_step):
                     "key_filename": key_pair + ".pem",
                 },
             )
-            
         else:
             print('datanode ', i)
             #DataNode00*
             Datanode ="DataNode00"+str(i)+"DNS"
             print(DataNodeDNS[Datanode])
-            print(Datanode)
             c = Connection(
                 host=DataNodeDNS[Datanode],
                 user="ubuntu",
@@ -285,7 +206,6 @@ while(not next_step):
                     "key_filename": key_pair + ".pem",
                 },
             )
-            
         print("Start DataNode ", i)
 
         c.sudo('sudo touch /etc/profile.d/bigdata.sh')
@@ -310,6 +230,7 @@ while(not next_step):
         c.sudo('echo -e "# AmazonEC2 Variables END" | sudo tee --append /etc/profile.d/bigdata.sh > /dev/null')
 
         if i == 0:
+            #ec2_functions.reboot(ec2, i, instance_node_list)
             c = Connection(
                 host=DataNodeDNS["NameNodeDNS"],
                 user="ubuntu",
@@ -318,7 +239,7 @@ while(not next_step):
                 },
             )
             sleep(5)
-            next_step = False
+#            next_step = False
             while(not next_step):
                 try:
                     c.run('echo testing complete!')
@@ -327,6 +248,7 @@ while(not next_step):
                     print('Running tests on node app server')
                     sleep(5)
         else:
+            #ec2_functions.reboot(ec2, i, instance_node_list)
             Datanode ="DataNode00"+str(i)+"DNS"
             print(DataNodeDNS[Datanode])
             c = Connection(
@@ -337,7 +259,7 @@ while(not next_step):
                 },
             )
             sleep(5)
-            next_step = False
+#            next_step = False
             while(not next_step):
                 try:
                     c.run('echo testing complete!')
@@ -385,8 +307,7 @@ while(not next_step):
         c.sudo('sudo chown root /etc/hosts')
 
         c.sudo('sudo chown ubuntu /home/ubuntu/.ssh')
-        
-        # transferring key.pem into each instances from local directory
+
         result = c.put(key_pair+'.pem', '/home/ubuntu/.ssh/')
         print("Uploaded {0.local} to {0.remote}".format(result))
 
@@ -446,7 +367,7 @@ while(not next_step):
         c.run('sudo service ssh restart')
 
 
-        print("Finished generating key by DataNode ", i)
+        print("Done DataNode ", i)
 
     next_step = True
 
@@ -461,9 +382,13 @@ c = Connection(
 for i in range(1,no_instance):
     c.run('sudo cat ~/.ssh/id_rsa.pub | ssh -o StrictHostKeyChecking=no DataNode00'+str(i)+' "cat >> ~/.ssh/authorized_keys"')
     
-#reboot all instances
+#reboot
+# NameNodeResponse
+# DataNode001response
+# DataNode002response
+# DataNode003response
 for i in range(no_instance):
-    ec2_functions.reboot(ec2, i, instance_node_list_combine)
+    ec2_functions.reboot(ec2, i, instance_node_list)
 
 next_step = False
 while(not next_step):
@@ -816,6 +741,44 @@ while (not next_step):
         next_step = False
         sleep(5)
 
+        
+# Stopping ssh connection
+        
+#for i in range(no_instance):
+#    if i == 0:
+#        
+#        c = Connection(
+#            host=DataNodeDNS["NameNodeDNS"],
+#            user="ubuntu",
+#            connect_kwargs={
+#                "key_filename": key_pair + ".pem",
+#            },
+#        )
+#        
+#        c.run('/usr/local/hadoop/sbin/stop-dfs.sh')
+#        
+#    else:
+#        Datanode ="DataNode00"+str(i)+"DNS"
+#        print(DataNodeDNS[Datanode])
+#        c = Connection(
+#            host=DataNodeDNS[Datanode],
+#            user="ubuntu",
+#            connect_kwargs={
+#                "key_filename": key_pair + ".pem",
+#            },
+#        )
+#        c.run('/usr/local/hadoop/sbin/stop-dfs.sh')
+#        
+#reboot
+# NameNodeResponse
+# DataNode001response
+# DataNode002response
+# DataNode003response
+#for i in range(no_instance):
+#    ec2_functions.reboot(ec2, i, instance_node_list)
+#
+#sleep(10)
+
 next_step = False
 while(not next_step):
     for i in range(no_instance):
@@ -860,6 +823,7 @@ while(not next_step):
                     sleep(5)
 
 
+        
 # Configure MasterNode
 # For NameNode Only
         
@@ -928,8 +892,10 @@ else:
     c.run('sudo chmod 0644 /usr/local/hadoop/etc/hadoop/masters')
 
 
+
 # Configure slaves from NameNode
     
+
 #NameNode
 
 c = Connection(
@@ -1028,27 +994,6 @@ c.run('/usr/local/hadoop/sbin/start-dfs.sh')
 
 print('Hadoop is ready!')
 
-# remove port 22 access
-remove_ip_permissions = [{'IpProtocol': 'tcp',
-                   'FromPort': 22,
-                   'ToPort': 22,
-                   'IpRanges': [{
-                       'CidrIp': '0.0.0.0/0',
-                       'Description': 'SSH'}]}]
-
-ec2_functions.remove_security_group_permissions(ec2, hadoop_datanode_groupID, remove_ip_permissions)
-
-
-# set port 22 access
-set_ip_permissions = [{'IpProtocol': 'tcp',
-                   'FromPort': 22,
-                   'ToPort': 22,
-                   'IpRanges': [{
-                       'CidrIp': namenode_ip+'/32',
-                       'Description': 'SSH'}]}]
-
-ec2_functions.set_security_group_permissions(ec2, hadoop_datanode_groupID, set_ip_permissions)
-
 print('Finished setting up Hadoop!')
 print('Start writting down hadoop ip, node instances and node group id')
 
@@ -1056,19 +1001,19 @@ f= open("hadoop_key_pair","w")
 f.write(key_pair)
 f.close
 
-print("IP adderess for node app server: %s" %DataNodePublicIP)
+print("IP adderess for node app server: %s" %DataNodeIP)
 
 f= open("hadoop_ip","w")
-f.write(DataNodePublicIP["NameNodeIP"])
+f.write(DataNodePublicIP['NameNodeIP'])
 f.close
 
 f= open("hadoop_node_instances","w")
-for instance in instance_node_list_combine:
+for instance in instance_node_list:
     f.write(instance + '/n')
     f.close
 
 f= open("hadoop_node_groupID","w")
-f.write(hadoop_namenode_groupID)
+f.write(hadoop_node_groupID)
 f.close
 
 print('Finished!')
