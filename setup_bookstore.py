@@ -53,11 +53,6 @@ while(not next_step):
                     aws_secret_access_key=aws_secret_key,
                     region_name=region_name)
 
-    # ec2 = boto3.client('ec2', 
-    #                 aws_access_key_id='AKIAJA2HAWGGXOY754TA',
-    #                 aws_secret_access_key='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',
-    #                 region_name='ap-southeast-1')
-
     try:
         ec2_functions.list_ec2_instances(ec2)
         next_step = True
@@ -144,7 +139,7 @@ while(not next_step):
         node_ip = instance_dic[instance_node_list[0]]
         next_step = True
     except:
-        print('Waiting for for Pulbic IP address to be assigned!')
+        print('Waiting for for Public IP address to be assigned!')
         sleep(5)
 
 # Define SSH connect to node app instance

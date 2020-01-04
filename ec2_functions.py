@@ -86,6 +86,33 @@ def list_ec2_instances(ec2):
     print('List of active Instances %s' %instances)
     return instances
 
+# AWS EC2 for multiple list instances
+def list_ec2_multiinstances(ec2):
+    publicinstances = {}
+    privateinstances = {}
+    publicDNS ={}
+    res = ec2.describe_instances()
+    for r in res['Reservations']:
+        for ins in r['Instances']:
+            if ins['State']['Name'] == 'running' or ins['State']['Name'] == 'pending':
+                publicinstances[ins['InstanceId']] = ins['PublicIpAddress']
+                privateinstances[ins['InstanceId']] = ins['PrivateIpAddress']
+                publicDNS[ins['InstanceId']] = ins['PublicDnsName']
+    print('List of active Instances %s' %privateinstances)
+    print('List of active publiceDNS %s' %publicDNS)
+    print('List of active publiceIP %s' %publicinstances)
+    return privateinstances, publicDNS, publicinstances
+
+# Reboot function
+def reboot(ec2,index, instance_node_list):
+    reboot = ec2.reboot_instances(
+        InstanceIds=[
+            instance_node_list[index],
+        ]
+    )
+    print(reboot)
+    return reboot
+
 # AWS EC2 terminate instances
 def terminate_instances(ec2, instances):
     response = ec2.terminate_instances(
